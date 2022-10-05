@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.12'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'java'
+	id 'org.openapi.generator' version '5.4.0'
 }
 
 group = 'hu.haku'
@@ -12,16 +13,27 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
 }
 
 repositories {
 	mavenCentral()
+
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.openapitools:openapi-generator-gradle-plugin:5.4.0'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.2'
+	implementation 'org.modelmapper:modelmapper-module-java8:1.2.2'
+	implementation 'org.modelmapper:modelmapper:3.1.0'
+	implementation 'org.modelmapper:modelmapper-module-java8-datatypes:1.2.2'
+
+	implementation 'com.google.code.findbugs:jsr305:3.0.0'
+	implementation "io.swagger.core.v3:swagger-annotations:2.1.10"
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -30,4 +42,37 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$rootDir/src/main/resources/openapi/openapi.swagger.yml".toString()
+	outputDir = "$rootDir".toString()
+	modelPackage = "hu.haku.gamestore.model"
+	configOptions = [
+			dateLibrary: "java8"
+	]
+	globalProperties = [
+			modelDocs: "false",
+			apiDocs: "false",
+			api: "false",
+			apiTests: "false",
+			modelTests: "false"
+	]
+}
+
+tasks.openApiGenerate {
+	doFirst{
+		delete (
+				"$rootDir/src/main/java/hu/haku/gamestore/model/controller"
+		)
+	}
+	doLast {
+		delete (
+				"$rootDir/.openapi-generator",
+				"$rootDir/src/main/java/org",
+				"$rootDir/src/main/resources/application.properties",
+				"$rootDir/src/main/resources/openapi.yaml"
+		)
+	}
 }
