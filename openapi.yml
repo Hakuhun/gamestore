@@ -1,0 +1,314 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Simple API
+  description: A simple API to illustrate OpenAPI concepts
+
+servers:
+  - url: https://localhost:8000
+
+security:
+  - apiKey: []
+
+paths:
+  /store/games:
+    get:
+      description: Return a list of games
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - name: title
+          in: query
+          description: "Search based on a game title"
+          required: false
+          schema:
+            type: string
+        - name: tags
+          in: query
+          description: "Search based on tags added by backoffice"
+          schema:
+            type: array
+            items:
+              type: string
+        - name: id
+          in: query
+          description: "Search based on ids"
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Either returns a list of games based on the provided query or an empty list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Game"
+      security:
+        - apiKey: []
+  /store/games/{id}}:
+    get:
+      description: Returns a specific game, identified by its id
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "200":
+          description: Successfully returned a list of artists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Game"
+      security:
+        - apiKey: []
+  /admin/games/{id}}:
+    post:
+      description: Lets a user with admin level privilage to post a new game
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "200":
+          description: Successfully created a new artist
+        "400":
+          description: asd
+      security:
+        - apiKey: []
+        - accessToken: []
+    patch:
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
+      description: Editing a game title lik its' price or any other definition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GameDetail"
+      responses:
+        "200":
+          description: ok
+      security:
+        - apiKey: []
+        - accessToken: []
+  /user:
+    post:
+      description: Registration of a user
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
+        - name: id
+          description: User id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: "body"
+          in: "path"
+          description: "body"
+          required: true
+          schema:
+            $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          $ref: "#/components/schemas/UserToken"
+          description: A UserToken object containing a JWT accessToken if the "registration" is complete
+        "400":
+          description: If any error occures.
+      security:
+        - apiKey: []
+  /user/{id}:
+    get:
+      description: Obtain public information about the requested users personal information and game library
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully returned an artist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLibrary"
+        "400":
+          description: "ASD"
+      security:
+        - apiKey: []
+  /user/cart:
+    post:
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
+      description: "With this operation a user can start a purchase"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShoppingCart"
+      responses:
+        "200":
+          description: Successfully created a new cart item
+        "400":
+          description: asd
+      security:
+        - apiKey: []
+        - accessToken: []
+    patch:
+      description: With this operation a user can manage their shopping cart by replacing fields.
+      parameters:
+        - $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShoppingCart"
+      responses:
+        "200":
+          description: Successfully created a new cart item
+      security:
+        - apiKey: []
+        - accessToken: []
+components:
+  securitySchemes:
+    accessToken:
+      description: "A jwt token that contains user information"
+      type: "apiKey"
+      name: "authorization"
+      in: "header"
+    apiKey:
+      description: "API key"
+      type: "apiKey"
+      name: "apiKey"
+      in: "header"
+
+  schemas:
+    UserToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+    QueryTag:
+      type: object
+      properties:
+        name:
+          type: string
+    Restriction:
+      type: object
+      properties:
+        region:
+          type: string
+        minimumAge:
+          type: number
+    Duration:
+      type: object
+      properties:
+        begin:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+    Price:
+      type: object
+      properties:
+        currency:
+          type: string
+        netPrice:
+          type: number
+        grossPrice:
+          type: number
+        region:
+          type: string
+        sale:
+          type: string
+        onSale:
+          type: boolean
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for every game entry. Based on UUID v4 format
+        title:
+          type: string
+        description:
+          type: string
+        queryTag:
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryTag"
+        ageRestriction:
+          type: array
+          items:
+            $ref: "#/components/schemas/Restriction"
+        releaseDate:
+          type: string
+          format: date
+        prices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Price"
+    GameDetail:
+      type: object
+      properties:
+        revisionId:
+          type: string
+        game:
+          $ref: "#/components/schemas/Game"
+        state:
+          type: string
+          enum: [active, deactive, suspended]
+        sale:
+          type: object
+        availability:
+          $ref: "#/components/schemas/Duration"
+    ShoppingCart:
+      type: object
+      properties:
+        userId:
+          type: string
+        games:
+          type: array
+          items:
+            $ref: "#/components/schemas/Game"
+        total:
+          $ref: "#/components/schemas/Price"
+        state:
+          type: string
+          enum: ["paid", "unpaid", "deleted"]
+    UserLibrary:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        games:
+          type: array
+          items:
+            $ref: "#/components/schemas/Game"
