@@ -8,7 +8,7 @@ servers:
   - url: https://localhost:8000/gamestore
 
 security:
-  - apiKey: []
+  - apiKey: [ ]
 
 paths:
   /v1/store/games:
@@ -46,7 +46,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Game"
       security:
-        - apiKey: []
+        - apiKey: [ ]
   /v1/store/games/{id}:
     get:
       description: Returns a specific game, identified by its id
@@ -68,13 +68,12 @@ paths:
                 items:
                   $ref: "#/components/schemas/Game"
       security:
-        - apiKey: []
-  /v1/admin/games/{id}:
+        - apiKey: [ ]
     post:
       description: Lets a user with admin level privilage to post a new game
-      parameters: 
-       # - $ref: "#/components/securitySchemes/apiKey"
-        - $ref: "#/components/securitySchemes/accessToken"  
+      parameters:
+        # - $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
       requestBody:
         required: true
         content:
@@ -82,18 +81,24 @@ paths:
             schema:
               $ref: "#/components/schemas/Game"
       responses:
-        "200":
-          description: Successfully created a new artist
+        "201":
+          description: Returns the managed game detail view
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GameDetail"
         "400":
           description: asd
       security:
-        - apiKey: []
-          accessToken: []
+        - apiKey: [ ]
+          accessToken: [ ]
     patch:
       parameters:
-       # - $ref: "#/components/securitySchemes/apiKey"
+        # - $ref: "#/components/securitySchemes/apiKey"
         - $ref: "#/components/securitySchemes/accessToken"
-      description: Editing a game title lik its' price or any other definition
+      description: Editing a game title, price or any other fields and prices
       requestBody:
         required: true
         content:
@@ -102,15 +107,21 @@ paths:
               $ref: "#/components/schemas/GameDetail"
       responses:
         "200":
-          description: ok
+          description: Returns the managed game detail view
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GameDetail"
       security:
-        - apiKey: []
-          accessToken: []
+        - apiKey: [ ]
+          accessToken: [ ]
   /v1/user:
     post:
       description: Registration of a user
       parameters:
-        - $ref: "#/components/securitySchemes/apiKey"
+        #- $ref: "#/components/securitySchemes/apiKey"
         - $ref: "#/components/securitySchemes/accessToken"
         - name: "body"
           in: "path"
@@ -120,12 +131,15 @@ paths:
             $ref: "#/components/schemas/User"
       responses:
         "201":
-          $ref: "#/components/schemas/UserToken"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserToken"
           description: A UserToken object containing a JWT accessToken if the "registration" is complete
         "400":
           description: If any error occures.
       security:
-        - apiKey: []
+        - apiKey: [ ]
   /v1/user/{id}:
     get:
       description: Obtain public information about the requested users personal information and game library
@@ -144,17 +158,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserLibrary"
       security:
-        - apiKey: []
-  /v1/user/{id}/cart:
+        - apiKey: [ ]
+  /v1/cart:
     post:
       parameters:
-        - $ref: "#/components/securitySchemes/apiKey"
-        #- $ref: "#/components/securitySchemes/accessToken"  
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+        #- $ref: "#/components/securitySchemes/apiKey"
+        - $ref: "#/components/securitySchemes/accessToken"
       description: "With this operation a user can start a purchase"
       requestBody:
         required: true
@@ -168,13 +177,13 @@ paths:
         "400":
           description: asd
       security:
-        - apiKey: []
-          accessToken: []
+        - apiKey: [ ]
+          accessToken: [ ]
     patch:
       description: With this operation a user can manage their shopping cart by replacing fields.
       parameters:
         - $ref: "#/components/securitySchemes/apiKey"
-       # - $ref: "#/components/securitySchemes/accessToken"
+        # - $ref: "#/components/securitySchemes/accessToken"
       requestBody:
         required: true
         content:
@@ -185,18 +194,18 @@ paths:
         "200":
           description: Successfully created a new cart item
       security:
-        - apiKey: []
-          accessToken: []
+        - apiKey: [ ]
+          accessToken: [ ]
 components:
   securitySchemes:
-    apiKey:    
+    apiKey:
       type: apiKey
       in: header
-      name: X-API-KEY 
-    accessToken:           
+      name: X-API-KEY
+    accessToken:
       type: http
       scheme: bearer
-      bearerFormat: JWT 
+      bearerFormat: JWT
       description: "A jwt token that contains user information"
 
   schemas:
@@ -280,7 +289,7 @@ components:
           $ref: "#/components/schemas/Game"
         state:
           type: string
-          enum: [active, deactive, suspended]
+          enum: [ active, deactive, suspended ]
         sale:
           type: object
         availability:
@@ -298,7 +307,7 @@ components:
           $ref: "#/components/schemas/Price"
         state:
           type: string
-          enum: ["paid", "unpaid", "deleted"]
+          enum: [ "paid", "unpaid", "deleted" ]
     UserLibrary:
       type: object
       properties:

@@ -16,3 +16,13 @@ spring:
   h2:
     console:
       enabled: true
+  security:
+    filter:
+      order=10:
+
+server:
+  port: 8000
+  tomcat:
+    max-threads: 400
+    max-connections: 400
+    accept-count: 40

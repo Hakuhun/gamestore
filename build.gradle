@@ -10,26 +10,37 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
+//	all {
+//		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//		exclude group: 'ch.qos.logback', module: 'logback-classic'
+//		exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+//	}
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-
 }
 
 repositories {
 	mavenCentral()
-
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation "org.springframework.boot:spring-boot-starter-log4j2"
+	modules {
+		module("org.springframework.boot:spring-boot-starter-logging") {
+			replacedBy("org.springframework.boot:spring-boot-starter-log4j2", "Use Log4j2 instead of Logback")
+		}
+	}
 	implementation 'org.openapitools:openapi-generator-gradle-plugin:5.4.0'
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.2'
 	implementation 'org.modelmapper:modelmapper-module-java8:1.2.2'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
 	implementation 'org.modelmapper:modelmapper-module-java8-datatypes:1.2.2'
+	implementation 'com.auth0:java-jwt:4.0.0'
 
 	implementation 'com.google.code.findbugs:jsr305:3.0.0'
 	implementation "io.swagger.core.v3:swagger-annotations:2.1.10"
