@@ -10,11 +10,6 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
-//	all {
-//		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-//		exclude group: 'ch.qos.logback', module: 'logback-classic'
-//		exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
-//	}
 	compileOnly {
 		extendsFrom annotationProcessor
 	}

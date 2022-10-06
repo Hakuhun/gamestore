@@ -1,5 +1,6 @@
 package hu.haku.gamestore.config;
 
+import hu.haku.gamestore.persistence.dao.UserDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ import static org.springframework.http.HttpMethod.GET;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    private final UserDataService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
@@ -31,8 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers(GET, "gamestore/user/**").hasAuthority("ROLE_USER");
-        http.authorizeRequests().anyRequest().authenticated();
+        //http.authorizeRequests().antMatchers(GET, "/**").permitAll();
+        //http.authorizeRequests().antMatchers(GET, "**").permitAll();
+        //http.authorizeRequests().antMatchers(GET, "gamestore/user/**").hasAuthority("ROLE_USER");
+        http.authorizeRequests().anyRequest().permitAll();
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+        //http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(super.authenticationManagerBean()));
 
     }
