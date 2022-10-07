@@ -41,7 +41,6 @@ public class GameDataService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Game with title " + detail.getTitle() + " already exists");
         }
 
-
         JPAGame game = new JPAGame();
         game.addDetail(detail);
         prices.forEach(game::addPrice);
@@ -52,7 +51,7 @@ public class GameDataService {
 
     public Set<JPAQueryTag> upsertTags(Set<JPAQueryTag> tags) {
         Set<JPAQueryTag> persistedTags = new HashSet<>();
-        //Save the previously not existent tags
+        //Save the previously not existent tags and returns the already existing ones.
         tags.stream().filter(tag -> StringUtils.isNoneBlank(tag.getName())).forEach(tag -> {
             if (!queryTagRepository.existsByName(tag.getName())) {
                 persistedTags.add(queryTagRepository.save(tag));
@@ -61,11 +60,6 @@ public class GameDataService {
             }
         });
 
-//        tags.stream().filter(tag -> StringUtils.isNoneBlank(tag.getName())).forEach(tag -> {
-//            if (queryTagRepository.existsByName(tag.getName())) {
-//                persistedTags.add(queryTagRepository.getByName(tag.getName()));
-//            }
-//        });
         return persistedTags;
     }
 

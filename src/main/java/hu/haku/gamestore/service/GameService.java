@@ -6,13 +6,15 @@ import hu.haku.gamestore.persistence.converter.JPAGameDetailConverter;
 import hu.haku.gamestore.persistence.converter.JPAPriceConverter;
 import hu.haku.gamestore.persistence.converter.JPAQueryTagConverter;
 import hu.haku.gamestore.persistence.dao.GameDataService;
+import hu.haku.gamestore.persistence.model.JPAGame;
 import hu.haku.gamestore.persistence.model.JPAQueryTag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +34,17 @@ public class GameService {
                 detailConverter.to(game),
                 priceConverter.to(game.getPrices()),
                 persistedTags
-                );
+        );
         return gameConverter.from(gameDataService.findGameById(persistedGameId));
     }
+
+    public BGame findGameById(String id) {
+        JPAGame game = gameDataService.findGameById(Long.valueOf(id));
+        if (null == game) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game with title " + id + "does not exists");
+        }
+        return gameConverter.from(game);
+    }
+
+    public BGame
 }

@@ -4,9 +4,11 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import hu.haku.gamestore.model.Duration;
-import hu.haku.gamestore.model.Game;
+import hu.haku.gamestore.model.QueryTag;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,154 +23,127 @@ import javax.annotation.Generated;
  * GameDetail
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-05T23:36:13.557+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
 public class GameDetail   {
 
-  @JsonProperty("revisionId")
-  private String revisionId;
+  @JsonProperty("title")
+  private String title;
 
-  @JsonProperty("game")
-  private Game game;
+  @JsonProperty("description")
+  private String description;
 
-  /**
-   * Gets or Sets state
-   */
-  public enum StateEnum {
-    ACTIVE("active"),
-    
-    DEACTIVE("deactive"),
-    
-    SUSPENDED("suspended");
+  @JsonProperty("queryTag")
+  @Valid
+  private List<QueryTag> queryTag = null;
 
-    private String value;
+  @JsonProperty("releaseDate")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+  private LocalDate releaseDate;
 
-    StateEnum(String value) {
-      this.value = value;
-    }
+  @JsonProperty("active")
+  private Boolean active;
 
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static StateEnum fromValue(String value) {
-      for (StateEnum b : StateEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
-  @JsonProperty("state")
-  private StateEnum state;
-
-  @JsonProperty("sale")
-  private Object sale;
-
-  @JsonProperty("availability")
-  private Duration availability;
-
-  public GameDetail revisionId(String revisionId) {
-    this.revisionId = revisionId;
+  public GameDetail title(String title) {
+    this.title = title;
     return this;
   }
 
   /**
-   * Get revisionId
-   * @return revisionId
+   * Get title
+   * @return title
   */
   
-  @Schema(name = "revisionId", required = false)
-  public String getRevisionId() {
-    return revisionId;
+  @Schema(name = "title", required = false)
+  public String getTitle() {
+    return title;
   }
 
-  public void setRevisionId(String revisionId) {
-    this.revisionId = revisionId;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
-  public GameDetail game(Game game) {
-    this.game = game;
+  public GameDetail description(String description) {
+    this.description = description;
     return this;
   }
 
   /**
-   * Get game
-   * @return game
+   * Get description
+   * @return description
+  */
+  
+  @Schema(name = "description", required = false)
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public GameDetail queryTag(List<QueryTag> queryTag) {
+    this.queryTag = queryTag;
+    return this;
+  }
+
+  public GameDetail addQueryTagItem(QueryTag queryTagItem) {
+    if (this.queryTag == null) {
+      this.queryTag = new ArrayList<>();
+    }
+    this.queryTag.add(queryTagItem);
+    return this;
+  }
+
+  /**
+   * Get queryTag
+   * @return queryTag
   */
   @Valid 
-  @Schema(name = "game", required = false)
-  public Game getGame() {
-    return game;
+  @Schema(name = "queryTag", required = false)
+  public List<QueryTag> getQueryTag() {
+    return queryTag;
   }
 
-  public void setGame(Game game) {
-    this.game = game;
+  public void setQueryTag(List<QueryTag> queryTag) {
+    this.queryTag = queryTag;
   }
 
-  public GameDetail state(StateEnum state) {
-    this.state = state;
+  public GameDetail releaseDate(LocalDate releaseDate) {
+    this.releaseDate = releaseDate;
     return this;
   }
 
   /**
-   * Get state
-   * @return state
-  */
-  
-  @Schema(name = "state", required = false)
-  public StateEnum getState() {
-    return state;
-  }
-
-  public void setState(StateEnum state) {
-    this.state = state;
-  }
-
-  public GameDetail sale(Object sale) {
-    this.sale = sale;
-    return this;
-  }
-
-  /**
-   * Get sale
-   * @return sale
-  */
-  
-  @Schema(name = "sale", required = false)
-  public Object getSale() {
-    return sale;
-  }
-
-  public void setSale(Object sale) {
-    this.sale = sale;
-  }
-
-  public GameDetail availability(Duration availability) {
-    this.availability = availability;
-    return this;
-  }
-
-  /**
-   * Get availability
-   * @return availability
+   * Get releaseDate
+   * @return releaseDate
   */
   @Valid 
-  @Schema(name = "availability", required = false)
-  public Duration getAvailability() {
-    return availability;
+  @Schema(name = "releaseDate", required = false)
+  public LocalDate getReleaseDate() {
+    return releaseDate;
   }
 
-  public void setAvailability(Duration availability) {
-    this.availability = availability;
+  public void setReleaseDate(LocalDate releaseDate) {
+    this.releaseDate = releaseDate;
+  }
+
+  public GameDetail active(Boolean active) {
+    this.active = active;
+    return this;
+  }
+
+  /**
+   * Get active
+   * @return active
+  */
+  
+  @Schema(name = "active", required = false)
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 
   @Override
@@ -180,27 +155,27 @@ public class GameDetail   {
       return false;
     }
     GameDetail gameDetail = (GameDetail) o;
-    return Objects.equals(this.revisionId, gameDetail.revisionId) &&
-        Objects.equals(this.game, gameDetail.game) &&
-        Objects.equals(this.state, gameDetail.state) &&
-        Objects.equals(this.sale, gameDetail.sale) &&
-        Objects.equals(this.availability, gameDetail.availability);
+    return Objects.equals(this.title, gameDetail.title) &&
+        Objects.equals(this.description, gameDetail.description) &&
+        Objects.equals(this.queryTag, gameDetail.queryTag) &&
+        Objects.equals(this.releaseDate, gameDetail.releaseDate) &&
+        Objects.equals(this.active, gameDetail.active);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(revisionId, game, state, sale, availability);
+    return Objects.hash(title, description, queryTag, releaseDate, active);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GameDetail {\n");
-    sb.append("    revisionId: ").append(toIndentedString(revisionId)).append("\n");
-    sb.append("    game: ").append(toIndentedString(game)).append("\n");
-    sb.append("    state: ").append(toIndentedString(state)).append("\n");
-    sb.append("    sale: ").append(toIndentedString(sale)).append("\n");
-    sb.append("    availability: ").append(toIndentedString(availability)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    queryTag: ").append(toIndentedString(queryTag)).append("\n");
+    sb.append("    releaseDate: ").append(toIndentedString(releaseDate)).append("\n");
+    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("}");
     return sb.toString();
   }

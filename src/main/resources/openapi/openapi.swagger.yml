@@ -1,17 +1,50 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Simple API
-  description: A simple API to illustrate OpenAPI concepts
+  title: GameStore API
+  description: "A simple API to illustrate a hypothetical digital gamestore like GoG."
+  contact:
+    email: bakonyi.gergo.istvan@gmail.com
 
 servers:
   - url: https://localhost:8000/gamestore
 
 security:
   - apiKey: [ ]
-
+tags:
+  - name: Game
+    description: Describe elements involved the products of the gamestore.
 paths:
   /v1/store/games:
+    post:
+      description: Lets a user with admin level privilage to post a new game
+      parameters:
+        - $ref: "#/components/securitySchemes/accessToken"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "201":
+          description: Returns the managed game detail view
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Game"
+        "400":
+          description: asd
+      security:
+        - apiKey: [ ]
+          accessToken: [ ]
     get:
       description: Return a list of games
       parameters:
@@ -51,13 +84,11 @@ paths:
     get:
       description: Returns a specific game, identified by its id
       parameters:
-        - $ref: "#/components/securitySchemes/apiKey"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Game"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Successfully returned a list of artists
@@ -69,36 +100,22 @@ paths:
                   $ref: "#/components/schemas/Game"
       security:
         - apiKey: [ ]
+
+  /v1/store/games/{gameId}/detail:
     post:
-      description: Lets a user with admin level privilage to post a new game
       parameters:
-        # - $ref: "#/components/securitySchemes/apiKey"
         - $ref: "#/components/securitySchemes/accessToken"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Game"
-      responses:
-        "201":
-          description: Returns the managed game detail view
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/GameDetail"
-        "400":
-          description: asd
-      security:
-        - apiKey: [ ]
-          accessToken: [ ]
-    patch:
-      parameters:
-        # - $ref: "#/components/securitySchemes/apiKey"
-        - $ref: "#/components/securitySchemes/accessToken"
-      description: Editing a game title, price or any other fields and prices
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: detailId
+          in: path
+          required: true
+          schema:
+            type: string
+      description: Adds a new game detail paage for the requested game. Fundamentally inactive status
       requestBody:
         required: true
         content:
@@ -113,7 +130,111 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/GameDetail"
+                  $ref: "#/components/schemas/Game"
+      security:
+        - apiKey: [ ]
+          accessToken: [ ]
+  /v1/store/games/{gameId}/detail/{priceId}:
+    patch:
+      parameters:
+        - $ref: "#/components/securitySchemes/accessToken"
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: priceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          required: true
+          schema:
+            type: string
+      description: This endpoints allows the user to modify a given detail activity. Only allowed field now is the "active" flag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GameDetail"
+      responses:
+        "200":
+          description: Returns the managed game detail view
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Game"
+      security:
+        - apiKey: [ ]
+          accessToken: [ ]
+  /v1/store/games/{id}/prices:
+    post:
+      parameters:
+        - $ref: "#/components/securitySchemes/accessToken"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      description: Add a new draft price for the game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Price"
+      responses:
+        "200":
+          description: Returns the new game price
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Price"
+      security:
+        - apiKey: [ ]
+          accessToken: [ ]
+  /v1/store/games/{gameId}/prices/{priceId}:
+    patch:
+      parameters:
+        - $ref: "#/components/securitySchemes/accessToken"
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: priceId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          required: true
+          schema:
+            type: string
+      description: With this endpoint the backoffice user could set the given price as the current, active price. The only allowed field is the "active" flag. If a price was mistakely given do not try to edit other parts of the document. Only the flag could be edited.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Price"
+      responses:
+        "200":
+          description: Returns the managed price
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Price"
       security:
         - apiKey: [ ]
           accessToken: [ ]
@@ -224,13 +345,6 @@ components:
       properties:
         name:
           type: string
-    Restriction:
-      type: object
-      properties:
-        region:
-          type: string
-        minimumAge:
-          type: number
     Duration:
       type: object
       properties:
@@ -255,6 +369,8 @@ components:
           type: string
         onSale:
           type: boolean
+        active:
+          type: boolean
     Game:
       type: object
       properties:
@@ -269,10 +385,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/QueryTag"
-        ageRestriction:
-          type: array
-          items:
-            $ref: "#/components/schemas/Restriction"
         releaseDate:
           type: string
           format: date
@@ -280,20 +392,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Price"
-    GameDetail:
-      type: object
-      properties:
-        revisionId:
-          type: string
-        game:
-          $ref: "#/components/schemas/Game"
-        state:
-          type: string
-          enum: [ active, deactive, suspended ]
-        sale:
-          type: object
-        availability:
-          $ref: "#/components/schemas/Duration"
     ShoppingCart:
       type: object
       properties:
@@ -317,3 +415,19 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Game"
+    GameDetail:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        queryTag:
+          type: array
+          items:
+            $ref: "#/components/schemas/QueryTag"
+        releaseDate:
+          type: string
+          format: date
+        active:
+          type: boolean

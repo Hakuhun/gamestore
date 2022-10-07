@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * QueryTag
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-05T23:36:13.557+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
 public class QueryTag   {
 
   @JsonProperty("name")

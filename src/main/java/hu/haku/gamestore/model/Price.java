@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Price
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-05T23:36:13.557+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
 public class Price   {
 
   @JsonProperty("currency")
@@ -39,6 +39,9 @@ public class Price   {
 
   @JsonProperty("onSale")
   private Boolean onSale;
+
+  @JsonProperty("active")
+  private Boolean active;
 
   public Price currency(String currency) {
     this.currency = currency;
@@ -154,6 +157,25 @@ public class Price   {
     this.onSale = onSale;
   }
 
+  public Price active(Boolean active) {
+    this.active = active;
+    return this;
+  }
+
+  /**
+   * Get active
+   * @return active
+  */
+  
+  @Schema(name = "active", required = false)
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -168,12 +190,13 @@ public class Price   {
         Objects.equals(this.grossPrice, price.grossPrice) &&
         Objects.equals(this.region, price.region) &&
         Objects.equals(this.sale, price.sale) &&
-        Objects.equals(this.onSale, price.onSale);
+        Objects.equals(this.onSale, price.onSale) &&
+        Objects.equals(this.active, price.active);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, netPrice, grossPrice, region, sale, onSale);
+    return Objects.hash(currency, netPrice, grossPrice, region, sale, onSale, active);
   }
 
   @Override
@@ -186,6 +209,7 @@ public class Price   {
     sb.append("    region: ").append(toIndentedString(region)).append("\n");
     sb.append("    sale: ").append(toIndentedString(sale)).append("\n");
     sb.append("    onSale: ").append(toIndentedString(onSale)).append("\n");
+    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("}");
     return sb.toString();
   }

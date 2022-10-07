@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import hu.haku.gamestore.model.Price;
 import hu.haku.gamestore.model.QueryTag;
-import hu.haku.gamestore.model.Restriction;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import javax.annotation.Generated;
  * Game
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-05T23:36:13.557+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
 public class Game   {
 
   @JsonProperty("id")
@@ -40,10 +39,6 @@ public class Game   {
   @JsonProperty("queryTag")
   @Valid
   private List<QueryTag> queryTag = null;
-
-  @JsonProperty("ageRestriction")
-  @Valid
-  private List<Restriction> ageRestriction = null;
 
   @JsonProperty("releaseDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -137,33 +132,6 @@ public class Game   {
     this.queryTag = queryTag;
   }
 
-  public Game ageRestriction(List<Restriction> ageRestriction) {
-    this.ageRestriction = ageRestriction;
-    return this;
-  }
-
-  public Game addAgeRestrictionItem(Restriction ageRestrictionItem) {
-    if (this.ageRestriction == null) {
-      this.ageRestriction = new ArrayList<>();
-    }
-    this.ageRestriction.add(ageRestrictionItem);
-    return this;
-  }
-
-  /**
-   * Get ageRestriction
-   * @return ageRestriction
-  */
-  @Valid 
-  @Schema(name = "ageRestriction", required = false)
-  public List<Restriction> getAgeRestriction() {
-    return ageRestriction;
-  }
-
-  public void setAgeRestriction(List<Restriction> ageRestriction) {
-    this.ageRestriction = ageRestriction;
-  }
-
   public Game releaseDate(LocalDate releaseDate) {
     this.releaseDate = releaseDate;
     return this;
@@ -223,14 +191,13 @@ public class Game   {
         Objects.equals(this.title, game.title) &&
         Objects.equals(this.description, game.description) &&
         Objects.equals(this.queryTag, game.queryTag) &&
-        Objects.equals(this.ageRestriction, game.ageRestriction) &&
         Objects.equals(this.releaseDate, game.releaseDate) &&
         Objects.equals(this.prices, game.prices);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, description, queryTag, ageRestriction, releaseDate, prices);
+    return Objects.hash(id, title, description, queryTag, releaseDate, prices);
   }
 
   @Override
@@ -241,7 +208,6 @@ public class Game   {
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    queryTag: ").append(toIndentedString(queryTag)).append("\n");
-    sb.append("    ageRestriction: ").append(toIndentedString(ageRestriction)).append("\n");
     sb.append("    releaseDate: ").append(toIndentedString(releaseDate)).append("\n");
     sb.append("    prices: ").append(toIndentedString(prices)).append("\n");
     sb.append("}");
