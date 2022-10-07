@@ -48,7 +48,6 @@ paths:
     get:
       description: Return a list of games
       parameters:
-        - $ref: "#/components/securitySchemes/apiKey"
         - name: title
           in: query
           description: "Search based on a game title"
@@ -58,13 +57,6 @@ paths:
         - name: tags
           in: query
           description: "Search based on tags added by backoffice"
-          schema:
-            type: array
-            items:
-              type: string
-        - name: id
-          in: query
-          description: "Search based on ids"
           schema:
             type: array
             items:
@@ -134,7 +126,7 @@ paths:
       security:
         - apiKey: [ ]
           accessToken: [ ]
-  /v1/store/games/{gameId}/detail/{priceId}:
+  /v1/store/games/{gameId}/detail/{detailId}:
     patch:
       parameters:
         - $ref: "#/components/securitySchemes/accessToken"
