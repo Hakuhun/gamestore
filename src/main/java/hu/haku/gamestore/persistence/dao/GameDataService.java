@@ -11,6 +11,8 @@ import hu.haku.gamestore.persistence.repository.QueryTagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -65,5 +68,16 @@ public class GameDataService {
 
     public JPAGame findGameById(Long id) {
         return gameRepository.getById(id);
+    }
+
+    public Page<JPAGame> findGameByTitleAndTags(String title, List<String> tags, Pageable pageable) {
+         return gameRepository.findByGameDetail_TitleAndGameDetail_ActiveTrueAndQueryTag_NameInAllIgnoreCase(title, tags, pageable);
+    }
+
+    public JPAGameDetail addNewGameDetail(String gameId, JPAGameDetail detail) {
+        JPAGame game = gameRepository.getById(Long.valueOf(gameId));
+        //TODO: ez lehet rossz
+        detail.setGame(game);
+        return detailsRepository.save(detail);
     }
 }

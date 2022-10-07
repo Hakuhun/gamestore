@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * Duration
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T15:43:16.448+02:00[Europe/Budapest]")
 public class Duration   {
 
   @JsonProperty("begin")

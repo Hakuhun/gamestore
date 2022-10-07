@@ -1,27 +1,30 @@
 package hu.haku.gamestore.persistence.converter;
 
 import hu.haku.gamestore.model.business.BGame;
+import hu.haku.gamestore.model.business.BGameDetail;
 import hu.haku.gamestore.persistence.model.JPAGameDetail;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JPAGameDetailConverter {
 
-    public BGame from(JPAGameDetail source) {
+    private final ModelMapper mapper;
+
+    public BGameDetail from(JPAGameDetail source) {
         if (null == source) {
             return null;
         }
-        BGame detail = new BGame();
-        detail.setTitle(source.getTitle());
-        detail.setDescription(source.getDescription());
-        detail.setReleaseDate(source.getReleaseDate());
-        return detail;
+        return mapper.map(source, BGameDetail.class);
     }
 
-    public JPAGameDetail to(BGame target) {
+    public JPAGameDetail to(BGameDetail target) {
         if (!target.hasAnyDetails()) {
             return null;
         }

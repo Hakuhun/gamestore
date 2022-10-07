@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * Game
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T15:43:16.448+02:00[Europe/Budapest]")
 public class Game   {
 
   @JsonProperty("id")
@@ -54,11 +54,11 @@ public class Game   {
   }
 
   /**
-   * Unique identifier for every game entry. Based on UUID v4 format
+   * Unique identifier for every game entry.
    * @return id
   */
   
-  @Schema(name = "id", description = "Unique identifier for every game entry. Based on UUID v4 format", required = false)
+  @Schema(name = "id", description = "Unique identifier for every game entry.", required = false)
   public String getId() {
     return id;
   }

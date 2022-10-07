@@ -23,8 +23,11 @@ import javax.annotation.Generated;
  * ShoppingCart
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T15:43:16.448+02:00[Europe/Budapest]")
 public class ShoppingCart   {
+
+  @JsonProperty("id")
+  private String id;
 
   @JsonProperty("userId")
   private String userId;
@@ -75,6 +78,25 @@ public class ShoppingCart   {
 
   @JsonProperty("state")
   private StateEnum state;
+
+  public ShoppingCart id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Unique identifier for every game entry.
+   * @return id
+  */
+  
+  @Schema(name = "id", description = "Unique identifier for every game entry.", required = false)
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public ShoppingCart userId(String userId) {
     this.userId = userId;
@@ -169,7 +191,8 @@ public class ShoppingCart   {
       return false;
     }
     ShoppingCart shoppingCart = (ShoppingCart) o;
-    return Objects.equals(this.userId, shoppingCart.userId) &&
+    return Objects.equals(this.id, shoppingCart.id) &&
+        Objects.equals(this.userId, shoppingCart.userId) &&
         Objects.equals(this.games, shoppingCart.games) &&
         Objects.equals(this.total, shoppingCart.total) &&
         Objects.equals(this.state, shoppingCart.state);
@@ -177,13 +200,14 @@ public class ShoppingCart   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, games, total, state);
+    return Objects.hash(id, userId, games, total, state);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ShoppingCart {\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    games: ").append(toIndentedString(games)).append("\n");
     sb.append("    total: ").append(toIndentedString(total)).append("\n");

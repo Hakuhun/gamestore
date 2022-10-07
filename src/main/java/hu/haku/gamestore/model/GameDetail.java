@@ -23,8 +23,11 @@ import javax.annotation.Generated;
  * GameDetail
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T15:43:16.448+02:00[Europe/Budapest]")
 public class GameDetail   {
+
+  @JsonProperty("id")
+  private String id;
 
   @JsonProperty("title")
   private String title;
@@ -42,6 +45,25 @@ public class GameDetail   {
 
   @JsonProperty("active")
   private Boolean active;
+
+  public GameDetail id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Unique identifier for every game entry.
+   * @return id
+  */
+  
+  @Schema(name = "id", description = "Unique identifier for every game entry.", required = false)
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public GameDetail title(String title) {
     this.title = title;
@@ -155,7 +177,8 @@ public class GameDetail   {
       return false;
     }
     GameDetail gameDetail = (GameDetail) o;
-    return Objects.equals(this.title, gameDetail.title) &&
+    return Objects.equals(this.id, gameDetail.id) &&
+        Objects.equals(this.title, gameDetail.title) &&
         Objects.equals(this.description, gameDetail.description) &&
         Objects.equals(this.queryTag, gameDetail.queryTag) &&
         Objects.equals(this.releaseDate, gameDetail.releaseDate) &&
@@ -164,13 +187,14 @@ public class GameDetail   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, description, queryTag, releaseDate, active);
+    return Objects.hash(id, title, description, queryTag, releaseDate, active);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GameDetail {\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    queryTag: ").append(toIndentedString(queryTag)).append("\n");

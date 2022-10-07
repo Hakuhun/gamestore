@@ -1,9 +1,8 @@
 package hu.haku.gamestore.model.business;
 
+import hu.haku.gamestore.persistence.model.JPAGameDetail;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -11,19 +10,10 @@ public class BGame {
 
     private String id;
 
-    private String title;
+    private List<BGameDetail> gameDetail;
 
-    private String description;
+    private List<BQueryTag> queryTag;
 
-    private List<BQueryTag> queryTag = null;
+    private List<BPrice> prices;
 
-    private List<BRestriction> ageRestriction = null;
-
-    private Date releaseDate;
-
-    private List<BPrice> prices = null;
-
-    public boolean hasAnyDetails() {
-        return null != releaseDate || StringUtils.isNoneBlank(title) || StringUtils.isNoneBlank(description);
-    }
 }

@@ -19,8 +19,11 @@ import javax.annotation.Generated;
  * Price
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T03:28:27.739+02:00[Europe/Prague]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-10-07T15:43:16.448+02:00[Europe/Budapest]")
 public class Price   {
+
+  @JsonProperty("id")
+  private String id;
 
   @JsonProperty("currency")
   private String currency;
@@ -42,6 +45,25 @@ public class Price   {
 
   @JsonProperty("active")
   private Boolean active;
+
+  public Price id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Unique identifier for every game entry.
+   * @return id
+  */
+  
+  @Schema(name = "id", description = "Unique identifier for every game entry.", required = false)
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public Price currency(String currency) {
     this.currency = currency;
@@ -185,7 +207,8 @@ public class Price   {
       return false;
     }
     Price price = (Price) o;
-    return Objects.equals(this.currency, price.currency) &&
+    return Objects.equals(this.id, price.id) &&
+        Objects.equals(this.currency, price.currency) &&
         Objects.equals(this.netPrice, price.netPrice) &&
         Objects.equals(this.grossPrice, price.grossPrice) &&
         Objects.equals(this.region, price.region) &&
@@ -196,13 +219,14 @@ public class Price   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, netPrice, grossPrice, region, sale, onSale, active);
+    return Objects.hash(id, currency, netPrice, grossPrice, region, sale, onSale, active);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Price {\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    netPrice: ").append(toIndentedString(netPrice)).append("\n");
     sb.append("    grossPrice: ").append(toIndentedString(grossPrice)).append("\n");
