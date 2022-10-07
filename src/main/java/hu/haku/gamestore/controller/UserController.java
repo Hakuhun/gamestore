@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("gamestore/v1/")
+@RestController()
+@RequestMapping("gamestore/v1/")
 public class UserController {
     @PostMapping("user")
     public ResponseEntity<User> createUser(

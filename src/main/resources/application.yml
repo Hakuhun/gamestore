@@ -9,13 +9,14 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
-
   jpa:
+    generate-ddl: true
     defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       naming:
-        physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+        ddl-auto: create-drop #update
+        #physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
   h2:
     console:
       enabled: true
