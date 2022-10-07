@@ -31,6 +31,7 @@ public class JPAGameConverter {
         JPAGame game = new JPAGame();
         game.setGameDetail(new HashSet<>(Sets.newHashSet(detailConverter.to(source))));
         game.getPrices().addAll(new HashSet<>(priceConverter.to(source.getPrices())));
+        game.getQueryTag().addAll(new HashSet<>(tagConverter.to(source.getQueryTag())));
 
         return game;
     }
@@ -42,6 +43,7 @@ public class JPAGameConverter {
 
         BGame game = detailConverter.from(source.getGameDetail().stream().findAny().orElse(new JPAGameDetail()));
         game.setId(source.getId().toString());
+        game.setQueryTag(new ArrayList<>(tagConverter.from(source.getQueryTag())));
         game.setPrices(new ArrayList<>(priceConverter.from(source.getPrices())));
         return game;
     }
